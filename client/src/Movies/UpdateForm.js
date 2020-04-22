@@ -22,7 +22,9 @@ const UpdateForm = (props) => {
       setItem(movieToUpdate);
     }
   }, [props.movieList, id]);
-
+  const reloadPage = () => {
+    window.location.reload();
+  };
   const handleChange = (event) => {
     let value = event.target.value;
     if (event.target.name === "metascore") {
@@ -44,6 +46,7 @@ const UpdateForm = (props) => {
         console.log(res.data);
         props.setMovieList([res.data]);
         props.history.push(`/movies/${id}`);
+        reloadPage();
       })
       .catch((err) => console.log("error!!", err));
   };
