@@ -49,6 +49,7 @@ body {
 
 .saved-list h3 {
   margin-right: 10px;
+  color: #fff;
 }
 
 .saved-movie {
@@ -85,6 +86,7 @@ button {
   border-radius: 10px;
   background-color: rgb(43, 149, 168);
   color: #fff;
+  margin: 5px;
 }
 .home-button {
   padding: 5px 10px;
@@ -101,4 +103,14 @@ button {
 a {
   text-decoration: none;
   color: white;
+}
+
+form {
+  text-align: center;
+}
+h2 {
+  text-align: center;
+}
+input {
+  margin: 5px;
 }
