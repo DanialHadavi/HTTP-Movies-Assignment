@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useRouteMatch, Link } from "react-router-dom";
 import MovieCard from "./MovieCard";
 
-function Movie({ addToSavedList }) {
+const Movie = (props) => {
   const [movie, setMovie] = useState(null);
-  const params = useParams();
+  const match = useRouteMatch();
 
   const fetchMovie = (id) => {
     axios
@@ -15,12 +15,28 @@ function Movie({ addToSavedList }) {
   };
 
   const saveMovie = () => {
-    addToSavedList(movie);
+    props.addToSavedList(movie);
+  };
+  const reloadPage = () => {
+    window.location.reload();
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    console.log(movie.id);
+    axios
+      .delete(`http://localhost:5000/api/movies/${movie.id}`)
+      .then((res) => {
+        console.log(res);
+        props.history.push("/");
+        reloadPage();
+      })
+      .catch((err) => console.log("Problem deleting", err));
   };
 
   useEffect(() => {
-    fetchMovie(params.id);
-  }, [params.id]);
+    fetchMovie(match.params.id);
+  }, [match.params.id]);
 
   if (!movie) {
     return <div>Loading movie information...</div>;
@@ -29,12 +45,15 @@ function Movie({ addToSavedList }) {
   return (
     <div className="save-wrapper">
       <MovieCard movie={movie} />
-
-      <div className="save-button" onClick={saveMovie}>
+      <button onClick={handleDelete}>Delete Movie</button>
+      <button className="save-button" onClick={saveMovie}>
         Save
-      </div>
+      </button>
+      <Link to={`/update-movie/${movie.id}`}>
+        <button>Update</button>
+      </Link>
     </div>
   );
-}
+};
 
 export default Movie;
